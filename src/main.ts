@@ -10,6 +10,7 @@ async function bootstrap() {
   app.use(helmet()); //For Halmet middleware
   app.enableCors(); //For Cors middleware
   app.useGlobalPipes(new ValidationPipe({ whitelist: true })); //For input validation
+  app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
     .setTitle('Example Docs.')
@@ -17,7 +18,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('example')
     .build();
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config, { ignoreGlobalPrefix: true });
   SwaggerModule.setup('doc', app, document);
 
   await app.listen(3000);
